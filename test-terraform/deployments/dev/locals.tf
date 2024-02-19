@@ -17,4 +17,8 @@ locals {
     vm_template = "Ubuntu Server 22.04"
     vm_memory = 4096
     vm_num_cpus = 4
+    vm_ipv4_address = "172.16.3.2"
+    vm_ipv4_netmask = 24
+    vm_ipv4_gateway = "172.16.3.1"
+    vm_ipv4_dns = ["172.16.3.1"]
 }

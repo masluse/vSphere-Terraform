@@ -29,3 +29,19 @@ variable "num_cpus" {
 variable "memory" {
   description = "The amount of memory to allocate to the VM"
 }
+
+variable "ipv4_address" {
+  description = "The IPv4 address to assign to the VM"
+}
+
+variable "ipv4_gateway" {
+  description = "The IPv4 gateway to assign to the VM"
+}
+
+variable "ipv4_netmask" {
+  description = "The IPv4 netmask to assign to the VM"
+}
+
+variable "ipv4_dns" {
+  description = "The IPv4 DNS server to assign to the VM"
+}
