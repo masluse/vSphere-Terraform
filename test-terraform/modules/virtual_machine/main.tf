@@ -38,7 +38,8 @@ resource "vsphere_virtual_machine" "default" {
     label            = "disk0"
     size             = data.vsphere_virtual_machine.template.disks.0.size
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-  }
+  }	
+  firmware = "efi"
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
   }
