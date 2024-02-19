@@ -60,7 +60,7 @@ variable "type" {
 
 variable "run_once_command_list" {
   description = "The list of commands to run once the VM is created"
-  default = []
+  default = ""
 }
 
 variable "admin_password" {
