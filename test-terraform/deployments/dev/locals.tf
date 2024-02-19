@@ -5,10 +5,10 @@ locals {
     vsphere_server = "vcenter.teleport.mregli.com"
 
     # variables for the datacenter
-    datacenter_name = "Main"
+    datacenter = "Main"
 
     # variables for the server
-    server_name = "10.27.9.3"
+    host = "10.27.9.3"
 
     # variables for the virtual machine
     vm_name = "mansrv92010"
