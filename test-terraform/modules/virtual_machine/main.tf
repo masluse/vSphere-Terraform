@@ -50,6 +50,12 @@ resource "vsphere_virtual_machine" "default" {
         domain    = "mregli.com"
         time_zone = "Europe/Zurich"
       }
+      windows_options {
+        computer_name  = var.vm_name
+        run_once_command_list = [var.run_once_command_list]
+        admin_password = var.admin_password
+        time_zone = "Europe/Zurich"
+      }
       network_interface {
         ipv4_address = var.ipv4_address
         ipv4_netmask = var.ipv4_netmask
@@ -59,3 +65,4 @@ resource "vsphere_virtual_machine" "default" {
     }
   }
 }
+

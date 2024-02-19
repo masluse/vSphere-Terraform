@@ -22,4 +22,6 @@ module "virtual_machine" {
   ipv4_dns     = local.vm_ipv4_dns[count.index]     # IPv4 DNS for the VM
   folder       = local.vm_folder[count.index]       # Folder where the VM will be deployed
   annotation   = local.vm_annotation[count.index]   # Annotation for the VM
+  type = local.vm_type[count.index]                 # Type of the VM
+  admin_password = var.vsphere_password             # Password for the VM
 }

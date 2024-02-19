@@ -53,3 +53,16 @@ variable "folder" {
 variable "annotation" {
   description = "The description of the VM"
 }
+
+variable "type" {
+  description = "The type of the VM"
+}
+
+variable "run_once_command_list" {
+  description = "The list of commands to run once the VM is created"
+  default = []
+}
+
+variable "admin_password" {
+  description = "The password for the admin user"
+}
