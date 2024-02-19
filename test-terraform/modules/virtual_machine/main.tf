@@ -24,7 +24,7 @@ data "vsphere_virtual_machine" "template" {
 
 resource "vsphere_virtual_machine" "default" {
   name             = var.vm_name
-  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
+  resource_pool_id = data.vsphere_host.host.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   num_cpus         = var.num_cpus
   memory           = var.memory
