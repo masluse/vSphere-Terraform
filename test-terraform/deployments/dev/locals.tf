@@ -19,4 +19,5 @@ locals {
   vm_ipv4_netmask = [24]
   vm_ipv4_gateway = ["172.16.3.1"]
   vm_ipv4_dns     = ["172.16.3.1"]
+  vm_folder       = ["/Main/Linux/Ubuntu"]
 }

@@ -45,3 +45,7 @@ variable "ipv4_netmask" {
 variable "ipv4_dns" {
   description = "The IPv4 DNS server to assign to the VM"
 }
+
+variable "folder" {
+  description = "The folder in which the resources will be created"
+}

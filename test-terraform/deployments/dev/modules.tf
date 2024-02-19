@@ -20,4 +20,5 @@ module "virtual_machine" {
   ipv4_netmask = local.vm_ipv4_netmask[count.index] # IPv4 netmask for the VM
   ipv4_gateway = local.vm_ipv4_gateway[count.index] # IPv4 gateway for the VM
   ipv4_dns     = local.vm_ipv4_dns[count.index]     # IPv4 DNS for the VM
+  folder       = local.vm_folder[count.index]       # Folder where the VM will be deployed
 }

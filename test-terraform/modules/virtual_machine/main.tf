@@ -40,6 +40,7 @@ resource "vsphere_virtual_machine" "default" {
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }	
   firmware = "efi"
+  folder = var.folder
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
     customize {
