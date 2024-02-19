@@ -28,7 +28,7 @@ resource "vsphere_virtual_machine" "Linux" {
   resource_pool_id = data.vsphere_host.host.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   num_cpus         = var.num_cpus
-  memory           = var.memory
+  memory           = var.memory * 1024
   guest_id         = data.vsphere_virtual_machine.template.guest_id
   scsi_type        = data.vsphere_virtual_machine.template.scsi_type
   network_interface {
