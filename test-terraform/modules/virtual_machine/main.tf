@@ -23,7 +23,7 @@ data "vsphere_virtual_machine" "template" {
 }
 
 resource "vsphere_virtual_machine" "Linux" {
-  count = "${var.type = "Linux" ? 1 : 0}"
+  count = "${var.type == "Linux" ? 1 : 0}"
   name             = var.vm_name
   resource_pool_id = data.vsphere_host.host.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "Linux" {
 }
 
 resource "vsphere_virtual_machine" "Windows" {
-  count = "${var.type = "Windows" ? 1 : 0}"
+  count = "${var.type == "Windows" ? 1 : 0}"
   name             = var.vm_name
   resource_pool_id = data.vsphere_host.host.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
