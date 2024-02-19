@@ -54,7 +54,7 @@ resource "vsphere_virtual_machine" "default" {
         computer_name  = var.vm_name
         run_once_command_list = [var.run_once_command_list]
         admin_password = var.admin_password
-        time_zone = "Europe/Zurich"
+        time_zone = 110
       }
       network_interface {
         ipv4_address = var.ipv4_address
