@@ -41,6 +41,7 @@ resource "vsphere_virtual_machine" "default" {
   }	
   firmware = "efi"
   folder = var.folder
+  annotation = var.annotation
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
     customize {

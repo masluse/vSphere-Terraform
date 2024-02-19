@@ -49,3 +49,7 @@ variable "ipv4_dns" {
 variable "folder" {
   description = "The folder in which the resources will be created"
 }
+
+variable "annotation" {
+  description = "The description of the VM"
+}

@@ -20,4 +20,5 @@ locals {
   vm_ipv4_gateway = ["172.16.3.1"]
   vm_ipv4_dns     = ["172.16.3.1"]
   vm_folder       = ["/Linux/Ubuntu"]
+  vm_annotation   = ["Test Server for Terraform"]
 }
