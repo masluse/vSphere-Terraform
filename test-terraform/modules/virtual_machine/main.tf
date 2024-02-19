@@ -42,5 +42,12 @@ resource "vsphere_virtual_machine" "default" {
   firmware = "efi"
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
+    customize {
+      linux_options {
+        host_name = var.vm_name
+        domain    = "mregli.com"
+        time_zone = "Europe/Zurich"
+      }
+    }
   }
 }
