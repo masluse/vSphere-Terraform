@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VM Erstellen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h1>VM Erstellen</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="vm_name">VM Name</label>
+            <input type="text" class="form-control" id="vm_name" name="vm_name" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_host">VM Host</label>
+            <input type="text" class="form-control" id="vm_host" name="vm_host" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_type">Betriebssystem</label>
+            <select class="form-control" id="vm_type" name="vm_type">
+                <option>Linux</option>
+                <option>Windows</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="vm_datastore">Datastore</label>
+            <input type="text" class="form-control" id="vm_datastore" name="vm_datastore" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_network">Network</label>
+            <input type="text" class="form-control" id="vm_network" name="vm_network" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_template">Template</label>
+            <input type="text" class="form-control" id="vm_template" name="vm_template" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_memory">Memory</label>
+            <input type="text" class="form-control" id="vm_memory" name="vm_memory" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_num_cpus">CPUs</label>
+            <input type="text" class="form-control" id="vm_num_cpus" name="vm_num_cpus" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_ipv4_address">IPv4 Address</label>
+            <input type="text" class="form-control" id="vm_ipv4_address" name="vm_ipv4_address" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_ipv4_netmask">IPv4 Netmask</label>
+            <input type="text" class="form-control" id="vm_ipv4_netmask" name="vm_ipv4_netmask" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_ipv4_gateway">IPv4 Gateway</label>
+            <input type="text" class="form-control" id="vm_ipv4_gateway" name="vm_ipv4_gateway" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_ipv4_dns">DNS</label>
+            <input type="text" class="form-control" id="vm_ipv4_dns" name="vm_ipv4_dns" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_folder">Folder</label>
+            <input type="text" class="form-control" id="vm_folder" name="vm_folder" required>
+        </div>
+        <div class="form-group">
+            <label for="vm_annotation">Beschreibung</label>
+            <input type="text" class="form-control" id="vm_annotation" name="vm_annotation" required>
+        </div>
+        <button type="submit" class="btn btn-primary">VM-Erstellen</button>
+    </form>
+</body>
+</html>

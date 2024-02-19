@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Webserver-Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body { display: flex; }
+        .folder-list { flex: 1; }
+        .create-vm { position: absolute; top: 20px; right: 20px; }
+    </style>
+</head>
+<body>
+<div class="folder-list">
+    <h2>Erstellte Server</h2>
+    <ul class="list-group">
+        {% for folder in folders %}
+            <li class="list-group-item">{{ folder }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<a href="/create_vm" class="btn btn-primary create-vm">VM Erstellen</a>
+</body>
+</html>
