@@ -61,9 +61,6 @@ def create_vm():
             return "Ein Ordner mit diesem Namen existiert bereits.", 400
     return render_template('create_vm.html')
 
-if __name__ == "__main__":
-    app.run('0.0.0.0', 5000, app)
-
 def check_vm_exists(vm_name):
     vcenter_url = os.getenv('VCENTER_URL', 'default_vcenter_domain')
     username = os.getenv('VCENTER_USERNAME', 'default_username')
@@ -88,3 +85,6 @@ def check_vm_exists(vm_name):
     except Exception as e:
         print(f"Es gab ein Problem bei der Verbindung oder der Suche: {e}")
     return False  # VM nicht gefunden oder Fehler aufgetreten
+
+if __name__ == "__main__":
+    app.run('0.0.0.0', 5000, app)
