@@ -94,20 +94,20 @@ def get_terraform_data(server_name):
             data_patterns = {
                 '1._Name': r'vm_name\s*=\s*"([^"]+)"',
                 '2._vSphere_Server': r'vsphere_server\s*=\s*"([^"]+)"',
-                '3._Host': r'vm_host\s*=\s*"([^"]+)"',
-                'datacenter': r'datacenter\s*=\s*"([^"]+)"',
-                'vm_type': r'vm_type\s*=\s*"([^"]+)"',
-                'vm_datastore': r'vm_datastore\s*=\s*"([^"]+)"',
-                'vm_network': r'vm_network\s*=\s*"([^"]+)"',
-                'vm_template': r'vm_template\s*=\s*"([^"]+)"',
-                'vm_memory': r'vm_memory\s*=\s*"([^"]+)"',
-                'vm_num_cpus': r'vm_num_cpus\s*=\s*"([^"]+)"',
-                'vm_ipv4_address': r'vm_ipv4_address\s*=\s*"([^"]+)"',
-                'vm_ipv4_netmask': r'vm_ipv4_netmask\s*=\s*"([^"]+)"',
-                'vm_ipv4_gateway': r'vm_ipv4_gateway\s*=\s*"([^"]+)"',
-                'vm_ipv4_dns': r'vm_ipv4_dns\s*=\s*"([^"]+)"',
-                'vm_folder': r'vm_folder\s*=\s*"([^"]+)"',
-                'vm_annotation': r'vm_annotation\s*=\s*"([^"]+)"'
+                '3._Datacenter': r'datacenter\s*=\s*"([^"]+)"',
+                '4._Host': r'vm_host\s*=\s*"([^"]+)"',
+                '5._Folder': r'vm_folder\s*=\s*"([^"]+)"',
+                '6._Template': r'vm_template\s*=\s*"([^"]+)"',
+                '7._Annotation': r'vm_annotation\s*=\s*"([^"]+)"'
+                '8._Type': r'vm_type\s*=\s*"([^"]+)"',
+                '9._Datastore': r'vm_datastore\s*=\s*"([^"]+)"',
+                '10._Network': r'vm_network\s*=\s*"([^"]+)"',
+                '11._Memory': r'vm_memory\s*=\s*"([^"]+)"',
+                '12._vCPU': r'vm_num_cpus\s*=\s*"([^"]+)"',
+                '13._IPv4_Address': r'vm_ipv4_address\s*=\s*"([^"]+)"',
+                '14._IPv4_Netmask': r'vm_ipv4_netmask\s*=\s*"([^"]+)"',
+                '15._IPv4_Gateway': r'vm_ipv4_gateway\s*=\s*"([^"]+)"',
+                '16._IPv4_Dns': r'vm_ipv4_dns\s*=\s*"([^"]+)"',
             }
             # Durchlaufe alle Muster und suche nach Übereinstimmungen im Terraform-Content
             for key, pattern in data_patterns.items():
@@ -148,17 +148,22 @@ def get_vcenter_data(vm_name):
 
         if vm:
             data = {
-                '2._vSphere_Server': vcenter_url,
-                'datacenter': 'xxx',
-                '3._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
-                'vm_type': 'xxx',
                 '1._Name': vm.name,
-                'vm_datastore': vm.datastore[0].name if vm.datastore else 'xxx',
-                'vm_network': ', '.join(net.name for net in vm.network),
-                'vm_template': 'Nicht anwendbar',  # Eine direkte Abfrage ist möglicherweise nicht möglich
-                'vm_memory': f"{vm.config.hardware.memoryMB} MB",
-                'vm_num_cpus': vm.config.hardware.numCPU,
-                'vm_ipv4_address': vm.summary.guest.ipAddress if vm.summary.guest.ipAddress else 'Nicht gefunden',
+                '2._vSphere_Server': vcenter_url,
+                '3._Datacenter': 'xxx',
+                '4._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
+                '5._Folder': 'xxx',
+                '6._Template': 'xxx',
+                '7._Annotation': vm.config.annotation if vm.config.annotation else 'xxx',
+                '8._Type': 'xxx',
+                '9._Datastore': vm.datastore[0].name if vm.datastore else 'xxx',
+                '10._Network': vm.network[0].name if vm.network else 'xxx',
+                '11._Memory': vm.config.hardware.memoryMB,
+                '12._vCPU': vm.config.hardware.numCPU,
+                '13._IPv4_Address': 'xxx',
+                '14._IPv4_Netmask': 'xxx',
+                '15._IPv4_Gateway': 'xxx',
+                '16._IPv4_Dns': 'xxx'
                 # Weitere Datenextraktion hier
             }
         else:
