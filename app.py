@@ -75,7 +75,7 @@ def check_vm_exists(vm_name):
         vcenter_url = 'https://' + vcenter_url
 
     try:
-        service_instance = connect.SmartConnectNoSSL(host=vcenter_url, user=username, pwd=password)
+        service_instance = connect.SmartConnect(host=vcenter_url, user=username, pwd=password)
         content = service_instance.RetrieveContent()
 
         for datacenter in content.rootFolder.childEntity:
