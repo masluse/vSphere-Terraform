@@ -148,11 +148,11 @@ def get_vcenter_data(vm_name):
 
         if vm:
             data = {
-                'vsphere_server': vcenter_url,
+                '2._vSphere_Server': vcenter_url,
                 'datacenter': 'xxx',
-                'vm_host': vm.runtime.host.name if vm.runtime.host else 'xxx',
+                '3._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
                 'vm_type': 'xxx'
-                'vm_name': vm.name,
+                '1._Name': vm.name,
                 'vm_datastore': vm.datastore[0].name if vm.datastore else 'xxx',
                 'vm_network': ', '.join(net.name for net in vm.network),
                 'vm_template': 'Nicht anwendbar',  # Eine direkte Abfrage ist möglicherweise nicht möglich
