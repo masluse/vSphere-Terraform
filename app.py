@@ -158,7 +158,7 @@ def get_vcenter_data(vm_name):
                 '8._Type': 'xxx',
                 '9._Datastore': vm.datastore[0].name if vm.datastore else 'xxx',
                 '10._Network': vm.network[0].name if vm.network else 'xxx',
-                '11._Memory': vm.config.hardware.memoryMB,
+                '11._Memory': vm.config.hardware.memoryGB,
                 '12._vCPU': vm.config.hardware.numCPU,
                 '13._IPv4_Address': 'xxx',
                 '14._IPv4_Netmask': 'xxx',
