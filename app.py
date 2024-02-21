@@ -151,7 +151,7 @@ def get_vcenter_data(vm_name):
                 '2._vSphere_Server': vcenter_url,
                 'datacenter': 'xxx',
                 '3._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
-                'vm_type': 'xxx'
+                'vm_type': 'xxx',
                 '1._Name': vm.name,
                 'vm_datastore': vm.datastore[0].name if vm.datastore else 'xxx',
                 'vm_network': ', '.join(net.name for net in vm.network),
