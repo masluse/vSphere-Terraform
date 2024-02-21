@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import shutil
 import re
+from pyVim import connect
+from pyVmomi import vim
 
 app = Flask(__name__)
 
@@ -61,3 +63,28 @@ def create_vm():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+def check_vm_exists(vm_name):
+    vcenter_url = os.getenv('VCENTER_URL', 'default_vcenter_domain')
+    username = os.getenv('VCENTER_USERNAME', 'default_username')
+    password = os.getenv('VCENTER_PASSWORD', 'default_password')
+    
+    # Stellen Sie sicher, dass die URL mit https:// beginnt
+    if not vcenter_url.startswith('https://'):
+        vcenter_url = 'https://' + vcenter_url
+
+    try:
+        service_instance = connect.SmartConnectNoSSL(host=vcenter_url, user=username, pwd=password)
+        content = service_instance.RetrieveContent()
+
+        for datacenter in content.rootFolder.childEntity:
+            vmFolder = datacenter.vmFolder
+            vmList = vmFolder.childEntity
+            for vm in vmList:
+                if vm.name == vm_name:
+                    connect.Disconnect(service_instance)
+                    return True  # VM gefunden
+        connect.Disconnect(service_instance)
+    except Exception as e:
+        print(f"Es gab ein Problem bei der Verbindung oder der Suche: {e}")
+    return False  # VM nicht gefunden oder Fehler aufgetreten

@@ -15,9 +15,13 @@
     <h2>Erstellte Server</h2>
     <ul class="list-group">
         {% for folder in folders %}
-            <li class="list-group-item">{{ folder }}</li>
+            {% if check_vm_exists(folder) %}
+                <li class="list-group-item list-group-item-success">{{ folder }}</li>
+            {% else %}
+                <li class="list-group-item list-group-item-danger">{{ folder }}</li>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </ul>    
 </div>
 <a href="/create_vm" class="btn btn-primary create-vm">VM Erstellen</a>
 </body>
