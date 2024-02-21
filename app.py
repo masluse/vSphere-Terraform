@@ -150,7 +150,7 @@ def get_vcenter_data(vm_name):
             data = {
                 '01._Name': vm.name,
                 '02._vSphere_Server': vcenter_url,
-                '03._Datacenter': 'xxx',
+                '03._Datacenter': vm.datacenter.name if vm.datacenter else 'xxx',
                 '04._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
                 '05._Folder': 'xxx',
                 '06._Template': 'xxx',
@@ -164,7 +164,6 @@ def get_vcenter_data(vm_name):
                 '14._IPv4_Netmask': 'xxx',
                 '15._IPv4_Gateway': 'xxx',
                 '16._IPv4_Dns': 'xxx'
-                # Weitere Datenextraktion hier
             }
             print(vm.network[0])
         else:
