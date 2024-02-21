@@ -158,15 +158,15 @@ def get_vcenter_data(vm_name):
                 '08._Type': 'xxx',
                 '09._Datastore': vm.datastore[0].name if vm.datastore else 'xxx',
                 '10._Network': vm.network[0].name if vm.network else 'xxx',
-                '11._Memory': vm.config.hardware.memoryMB / 1024,
-                '12._vCPU': vm.config.hardware.numCPU,
+                '11._Memory': str((vm.config.hardware.memoryMB / 1024).split('.')[0]),
+                '12._vCPU': str(vm.config.hardware.numCPU),
                 '13._IPv4_Address': 'xxx',
                 '14._IPv4_Netmask': 'xxx',
                 '15._IPv4_Gateway': 'xxx',
                 '16._IPv4_Dns': 'xxx'
                 # Weitere Datenextraktion hier
             }
-            print(data)
+            print(vm.network[0])
         else:
             data = {'Fehler': 'VM nicht gefunden'}
 
