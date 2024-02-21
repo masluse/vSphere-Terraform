@@ -75,7 +75,7 @@ def check_vm_exists(vm_name):
         vcenter_url = 'https://' + vcenter_url
 
     try:
-        service_instance = connect.SmartConnect(host=vcenter_url, user=username, pwd=password)
+        service_instance = SmartConnectNoSSL(host=vcenter_url, user=username, pwd=password)
         content = service_instance.RetrieveContent()
 
         for datacenter in content.rootFolder.childEntity:
@@ -83,9 +83,9 @@ def check_vm_exists(vm_name):
             vmList = vmFolder.childEntity
             for vm in vmList:
                 if vm.name == vm_name:
-                    connect.Disconnect(service_instance)
+                    Disconnect(service_instance)
                     return True  # VM gefunden
-        connect.Disconnect(service_instance)
+        Disconnect(service_instance)
     except Exception as e:
         print(f"Es gab ein Problem bei der Verbindung oder der Suche: {e}")
     return False  # VM nicht gefunden oder Fehler aufgetreten
