@@ -98,7 +98,7 @@ def get_terraform_data(server_name):
                 '4._Host': r'vm_host\s*=\s*"([^"]+)"',
                 '5._Folder': r'vm_folder\s*=\s*"([^"]+)"',
                 '6._Template': r'vm_template\s*=\s*"([^"]+)"',
-                '7._Annotation': r'vm_annotation\s*=\s*"([^"]+)"'
+                '7._Annotation': r'vm_annotation\s*=\s*"([^"]+)"',
                 '8._Type': r'vm_type\s*=\s*"([^"]+)"',
                 '9._Datastore': r'vm_datastore\s*=\s*"([^"]+)"',
                 '10._Network': r'vm_network\s*=\s*"([^"]+)"',
@@ -107,7 +107,7 @@ def get_terraform_data(server_name):
                 '13._IPv4_Address': r'vm_ipv4_address\s*=\s*"([^"]+)"',
                 '14._IPv4_Netmask': r'vm_ipv4_netmask\s*=\s*"([^"]+)"',
                 '15._IPv4_Gateway': r'vm_ipv4_gateway\s*=\s*"([^"]+)"',
-                '16._IPv4_Dns': r'vm_ipv4_dns\s*=\s*"([^"]+)"',
+                '16._IPv4_Dns': r'vm_ipv4_dns\s*=\s*"([^"]+)"'
             }
             # Durchlaufe alle Muster und suche nach Übereinstimmungen im Terraform-Content
             for key, pattern in data_patterns.items():
