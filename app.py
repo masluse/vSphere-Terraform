@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import shutil
 import re
+import ssl
 from pyVim.connect import SmartConnect, Disconnect
 from pyVmomi import vim
 
