@@ -92,15 +92,15 @@ def get_terraform_data(server_name):
             terraform_content = file.read()
             # Extrahiere die benötigten Daten mit regulären Ausdrücken
             data_patterns = {
-                '1._Name': r'vm_name\s*=\s*"([^"]+)"',
-                '2._vSphere_Server': r'vsphere_server\s*=\s*"([^"]+)"',
-                '3._Datacenter': r'datacenter\s*=\s*"([^"]+)"',
-                '4._Host': r'vm_host\s*=\s*"([^"]+)"',
-                '5._Folder': r'vm_folder\s*=\s*"([^"]+)"',
-                '6._Template': r'vm_template\s*=\s*"([^"]+)"',
-                '7._Annotation': r'vm_annotation\s*=\s*"([^"]+)"',
-                '8._Type': r'vm_type\s*=\s*"([^"]+)"',
-                '9._Datastore': r'vm_datastore\s*=\s*"([^"]+)"',
+                '01._Name': r'vm_name\s*=\s*"([^"]+)"',
+                '02._vSphere_Server': r'vsphere_server\s*=\s*"([^"]+)"',
+                '03._Datacenter': r'datacenter\s*=\s*"([^"]+)"',
+                '04._Host': r'vm_host\s*=\s*"([^"]+)"',
+                '05._Folder': r'vm_folder\s*=\s*"([^"]+)"',
+                '06._Template': r'vm_template\s*=\s*"([^"]+)"',
+                '07._Annotation': r'vm_annotation\s*=\s*"([^"]+)"',
+                '08._Type': r'vm_type\s*=\s*"([^"]+)"',
+                '09._Datastore': r'vm_datastore\s*=\s*"([^"]+)"',
                 '10._Network': r'vm_network\s*=\s*"([^"]+)"',
                 '11._Memory': r'vm_memory\s*=\s*"([^"]+)"',
                 '12._vCPU': r'vm_num_cpus\s*=\s*"([^"]+)"',
@@ -148,15 +148,15 @@ def get_vcenter_data(vm_name):
 
         if vm:
             data = {
-                '1._Name': vm.name,
-                '2._vSphere_Server': vcenter_url,
-                '3._Datacenter': 'xxx',
-                '4._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
-                '5._Folder': 'xxx',
-                '6._Template': 'xxx',
-                '7._Annotation': vm.config.annotation if vm.config.annotation else 'xxx',
-                '8._Type': 'xxx',
-                '9._Datastore': vm.datastore[0].name if vm.datastore else 'xxx',
+                '01._Name': vm.name,
+                '02._vSphere_Server': vcenter_url,
+                '03._Datacenter': 'xxx',
+                '04._Host': vm.runtime.host.name if vm.runtime.host else 'xxx',
+                '05._Folder': 'xxx',
+                '06._Template': 'xxx',
+                '07._Annotation': vm.config.annotation if vm.config.annotation else 'xxx',
+                '08._Type': 'xxx',
+                '09._Datastore': vm.datastore[0].name if vm.datastore else 'xxx',
                 '10._Network': vm.network[0].name if vm.network else 'xxx',
                 '11._Memory': vm.config.hardware.memoryMB / 1024,
                 '12._vCPU': vm.config.hardware.numCPU,
@@ -166,6 +166,7 @@ def get_vcenter_data(vm_name):
                 '16._IPv4_Dns': 'xxx'
                 # Weitere Datenextraktion hier
             }
+            print(data)
         else:
             data = {'Fehler': 'VM nicht gefunden'}
 
