@@ -41,34 +41,28 @@
         </div>
     </div>
 </div>
-
 <script>
 function loadServerDetails(serverName) {
-    // Laden der Serverdetails über eine AJAX-Anfrage
     $.ajax({
         url: `/server_details/${serverName}`,
         type: 'GET',
         success: function(response) {
-            // Annahme: Die Antwort ist ein JSON-Objekt mit den erforderlichen Daten
-            var details = `
-                <p>VM Name: ${response.vm_name}</p>
-                <p>vCenter: ${response.vsphere_server}</p>
-                <p>Datacenter: ${response.datacenter}</p>
-                <p>VM Host: ${response.vm_host}</p>
-                <p>VM Type: ${response.vm_type}</p>
-                <p>VM Datastore: ${response.vm_datastore}</p>
-                <p>VM Network: ${response.vm_network}</p>
-                <p>VM Template: ${response.vm_template}</p>
-                <p>VM Memory: ${response.vm_memory}</p>
-                <p>VM CPUs: ${response.vm_num_cpus}</p>
-                <p>VM IP Address: ${response.vm_ipv4_address}</p>
-                <p>VM Subnet Mask: ${response.vm_ipv4_netmask}</p>
-                <p>VM Gateway: ${response.vm_ipv4_gateway}</p>
-                <p>VM DNS: ${response.vm_ipv4_dns}</p>
-                <p>VM Folder: ${response.vm_folder}</p>
-                <p>VM Annotation: ${response.vm_annotation}</p>
-            `;
-            $('#serverDetailsModal .modal-body').html(details);
+            const terraform = response.terraform;
+            const vcenter = response.vcenter;
+            let detailsHtml = '<h5>Terraform Details</h5>';
+
+            // Vergleiche Terraform- und vCenter-Daten und markiere Unterschiede
+            Object.keys(terraform).forEach(key => {
+                const terraformValue = terraform[key];
+                const vcenterValue = vcenter[key];
+                const valueMatch = terraformValue === vcenterValue || vcenterValue === 'xxx';
+                const displayValue = terraformValue === 'Nicht definiert' ? 'Nicht definiert' : terraformValue;
+                const colorClass = valueMatch ? '' : 'text-danger';
+
+                detailsHtml += `<div class="detail-item ${colorClass}"><strong>${key.replace(/_/g, ' ')}:</strong> ${displayValue}</div>`;
+            });
+
+            $('#serverDetailsModal .modal-body').html(detailsHtml);
         },
         error: function(error) {
             console.log(error);

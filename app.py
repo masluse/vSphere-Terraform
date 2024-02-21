@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 import shutil
 import re
 import ssl
 from pyVim.connect import SmartConnect, Disconnect
-from pyVmomi import vim
+from pyVmomi import vim, vmodl
 
 app = Flask(__name__)
 
@@ -82,7 +82,6 @@ def get_all_objs(content, vimtype):
         obj.update({managed_object_ref: managed_object_ref.name})
     return obj
 
-import re
 
 def get_terraform_data(server_name):
     # Pfad zur Terraform-Konfigurationsdatei
@@ -93,11 +92,11 @@ def get_terraform_data(server_name):
             terraform_content = file.read()
             # Extrahiere die benötigten Daten mit regulären Ausdrücken
             data_patterns = {
-                'vsphere_server': r'vsphere_server\s*=\s*"([^"]+)"',
+                '1._Name': r'vm_name\s*=\s*"([^"]+)"',
+                '2._vSphere_Server': r'vsphere_server\s*=\s*"([^"]+)"',
+                '3._Host': r'vm_host\s*=\s*"([^"]+)"',
                 'datacenter': r'datacenter\s*=\s*"([^"]+)"',
-                'vm_host': r'vm_host\s*=\s*"([^"]+)"',
                 'vm_type': r'vm_type\s*=\s*"([^"]+)"',
-                'vm_name': r'vm_name\s*=\s*"([^"]+)"',
                 'vm_datastore': r'vm_datastore\s*=\s*"([^"]+)"',
                 'vm_network': r'vm_network\s*=\s*"([^"]+)"',
                 'vm_template': r'vm_template\s*=\s*"([^"]+)"',
@@ -122,71 +121,56 @@ def get_terraform_data(server_name):
     except FileNotFoundError:
         return "Terraform-Konfigurationsdatei nicht gefunden."
 
+
+
 def get_vcenter_data(vm_name):
     vcenter_url = "vcenter.teleport.mregli.com"
     username = "administrator@vsphere.local"
     password = "HalloM3in*"
-    port = 443  # Standard vSphere API Port
-    data = {}
+    port = 443
 
     try:
-        # Verbindung zum vCenter Server herstellen
         # SSL-Zertifikatsprüfung deaktivieren
         context = ssl._create_unverified_context()
 
         # Verbindung zum vCenter Server herstellen
         service_instance = SmartConnect(host=vcenter_url, user=username, pwd=password, sslContext=context)
+
         content = service_instance.RetrieveContent()
 
-        # VM-Objekt abrufen
+        container = content.viewManager.CreateContainerView(content.rootFolder, [vim.VirtualMachine], True)
         vm = None
-        search_index = content.searchIndex
-        vm = search_index.FindByDnsName(dnsName=vm_name, vmSearch=True)
+        for c in container.view:
+            if c.name == vm_name:
+                vm = c
+                break
+        container.Destroy()
 
         if vm:
-            # Grundlegende VM-Informationen abrufen
-            summary = vm.summary
-            config = vm.config
-            guest = vm.guest
-            
-            datacenter = None
-            for child in content.rootFolder.childEntity:
-                if hasattr(child, 'vmFolder'):
-                    vm_list = child.vmFolder.childEntity
-                    for item in vm_list:
-                        if item == vm:
-                            datacenter = child.name
-                            break
-                if datacenter:
-                    break
-            
             data = {
                 'vsphere_server': vcenter_url,
-                'datacenter': datacenter,
-                'vm_host': summary.runtime.host.name if summary.runtime.host else 'xxx',
-                'vm_type': config.guestFullName,
-                'vm_name': summary.config.name,
-                'vm_datastore': config.datastoreUrl[0].name if config.datastoreUrl else 'xxx',
-                'vm_network': ', '.join([net.network for net in vm.network]),
-                'vm_template': 'xxx',  # VM Template ist nicht direkt abrufbar
-                'vm_memory': str(config.hardware.memoryMB) + " MB",
-                'vm_num_cpus': str(config.hardware.numCPU),
-                'vm_ipv4_address': guest.ipAddress if guest.ipAddress else 'xxx',
-                'vm_ipv4_netmask': 'xxx',  # Nicht direkt abrufbar
-                'vm_ipv4_gateway': 'xxx',  # Evtl. über guest.net[0].ipConfig.gateway abrufbar, wenn konfiguriert
-                'vm_ipv4_dns': 'xxx',  # Nicht direkt abrufbar
-                'vm_folder': vm.parent.name if vm.parent else 'xxx',
-                'vm_annotation': summary.config.annotation if summary.config.annotation else 'xxx'
+                'datacenter': 'xxx',
+                'vm_host': vm.runtime.host.name if vm.runtime.host else 'xxx',
+                'vm_type': 'xxx'
+                'vm_name': vm.name,
+                'vm_datastore': vm.datastore[0].name if vm.datastore else 'xxx',
+                'vm_network': ', '.join(net.name for net in vm.network),
+                'vm_template': 'Nicht anwendbar',  # Eine direkte Abfrage ist möglicherweise nicht möglich
+                'vm_memory': f"{vm.config.hardware.memoryMB} MB",
+                'vm_num_cpus': vm.config.hardware.numCPU,
+                'vm_ipv4_address': vm.summary.guest.ipAddress if vm.summary.guest.ipAddress else 'Nicht gefunden',
+                # Weitere Datenextraktion hier
             }
         else:
-            data = {key: 'xxx' for key in ['vsphere_server', 'datacenter', 'vm_host', 'vm_type', 'vm_name', 'vm_datastore', 'vm_network', 'vm_template', 'vm_memory', 'vm_num_cpus', 'vm_ipv4_address', 'vm_ipv4_netmask', 'vm_ipv4_gateway', 'vm_ipv4_dns', 'vm_folder', 'vm_annotation']}
-        
+            data = {'Fehler': 'VM nicht gefunden'}
+
         Disconnect(service_instance)
     except Exception as e:
-        print(f"Es gab ein Problem bei der Verbindung oder der Suche: {e}")
-        data = {key: 'Fehler' for key in ['vsphere_server', 'datacenter', 'vm_host', 'vm_type', 'vm_name', 'vm_datastore', 'vm_network', 'vm_template', 'vm_memory', 'vm_num_cpus', 'vm_ipv4_address', 'vm_ipv4_netmask', 'vm_ipv4_gateway', 'vm_ipv4_dns', 'vm_folder', 'vm_annotation']}
+        print(f"Fehler: {e}")
+        data = {'Fehler': str(e)}
 
     return data
+
 
 # Funktion zum Überprüfen, ob eine VM existiert, basierend auf der get_all_objs Funktion
 def check_vm_exists(vm_name):
