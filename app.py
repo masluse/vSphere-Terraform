@@ -7,6 +7,10 @@ from pyVmomi import vim
 
 app = Flask(__name__)
 
+@app.context_processor
+def utility_processor():
+    return dict(check_vm_exists=check_vm_exists)
+
 # Funktion, um bestimmte Ordner auszuschließen
 def get_folders():
     exclude_folders = ['dev', 'dev-linux', 'dev-windows']
