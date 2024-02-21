@@ -62,7 +62,7 @@ def create_vm():
     return render_template('create_vm.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run('0.0.0.0', 5000, app)
 
 def check_vm_exists(vm_name):
     vcenter_url = os.getenv('VCENTER_URL', 'default_vcenter_domain')
